@@ -90,6 +90,7 @@ void loop() {
 
 /*
 Open the Serial Monitor. Click 'Tools' above, then 'Serial Monitor'.
+check
  */
   Serial.print("R:");
   Serial.println(rightValue);
