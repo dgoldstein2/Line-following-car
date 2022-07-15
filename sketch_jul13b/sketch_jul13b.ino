@@ -9,13 +9,13 @@
  */
 
 
-#include <avr/wdt.h>
+#include <avr/wdt.h> //imports main files for driving features and turning features.
 #include "DeviceDriverSet_xxx0.h"
 #include "ApplicationFunctionSet_xxx0.cpp"
 
 //#include "DeviceDriverSet_xxx0.cpp"
 
-DeviceDriverSet_Motor AppMotor;
+DeviceDriverSet_Motor AppMotor; //creates a Motor object
 Application_xxx Application_SmartRobotCarxxx0;
   
 
@@ -38,6 +38,7 @@ This section creates variables that can be stored as integers. Remember
 int rightValue; //initialize the integer variable rightValue
 int leftValue; //initialize a value for left sensor
 int middleValue; //initialize a value for middle sensor
+int b = 250;//creates a variable for the color black
 
 void setup() {
     AppMotor.DeviceDriverSet_Motor_Init(); //internal code to initialize the motors. 
@@ -51,25 +52,29 @@ void setup() {
 void loop() {
   
   rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
-  //black is greater than 650
-  leftValue = analogRead(leftSensor);
-  middleValue = analogRead(middleSensor);
+  
+  //black is greater than 250
+  leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
+  middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
+  //delay(50); //Delay the read miniscule amounts for more accurate move movements
 
-  if (middleValue<650){
-    ApplicationFunctionSet_SmartRobotCarMotionControl(1,50);
-    }
+  if(middleValue< b  && rightValue < b && leftValue < b){
+     ApplicationFunctionSet_SmartRobotCarMotionControl(1,20);
     //back up if center is off tape
-   else if (rightValue < 650 &&leftValue > 650){
-    ApplicationFunctionSet_SmartRobotCarMotionControl(2,100);
+  }
+   else if (rightValue < b &&leftValue > b){
+    ApplicationFunctionSet_SmartRobotCarMotionControl(4,20);
+    //turn left
    }
-   else if (leftValue < 650 && rightValue > 650){
-    ApplicationFunctionSet_SmartRobotCarMotionControl(3,100);
+   else if (leftValue < b &&  rightValue > b){
+    ApplicationFunctionSet_SmartRobotCarMotionControl(6,20); 
+    //turn right
    }
    else {
-    ApplicationFunctionSet_SmartRobotCarMotionControl(0,100);
+    ApplicationFunctionSet_SmartRobotCarMotionControl(0,50);
     //drive forward
    }
-   
+  
 /* 
   ApplicationFunctionSet_SmartRobotCarMotionControl(0,100);
   while (middleValue<750){
@@ -92,7 +97,7 @@ void loop() {
 Open the Serial Monitor. Click 'Tools' above, then 'Serial Monitor'.
 check
  */
-  Serial.print("R:");
+  Serial.print("R:"); //Will print out the numeric value of the color sensed by the right sensor 
   Serial.println(rightValue);
   
  
@@ -103,5 +108,5 @@ check
   Serial.print('\t');
    Serial.print("L:"); //this line of code will add a space between printed data.
   Serial.println(leftValue); //notice the ln? This will display the right sensor's data value and then start the next printed info on the line below. 
-  delay(2000);
+  delay(2000); // adds a delay between each line of data printed
 }
