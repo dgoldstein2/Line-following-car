@@ -68,9 +68,11 @@ void loop() {
       }
       else if(leftValue >= z && rightValue < b){
         ApplicationFunctionSet_SmartRobotCarMotionControl(2,s); // if mid and left are black go left forward
+        delay(50);//delay for each turn to turn more
       }
       else if(rightValue >= z && leftValue < b){
         ApplicationFunctionSet_SmartRobotCarMotionControl(3,s); //if mid and right are black then go right forward
+        delay(50);//delay to lengthen turn
       }
       else{
         ApplicationFunctionSet_SmartRobotCarMotionControl(0,s/2);//if only middle is on black go forward
@@ -80,6 +82,7 @@ void loop() {
       if(leftValue >= z && rightValue < b){
       
         ApplicationFunctionSet_SmartRobotCarMotionControl(2,s);// if only left is black go left
+        delay(50);
         rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
         leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
         middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
@@ -90,6 +93,7 @@ void loop() {
       else if(rightValue >= b && leftValue < z){
         
         ApplicationFunctionSet_SmartRobotCarMotionControl(3,s); //if only right is black then go right
+        delay(50);//delay to lengthen turn
         rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
   
       
@@ -102,7 +106,7 @@ void loop() {
       
      
         ApplicationFunctionSet_SmartRobotCarMotionControl(1,s/2);
-        delay(50);    //if all are white then go backwards with a bit of delay to allow to go backwards a bit
+        delay(30);   //if all are white then go backwards with a bit of delay to allow to go backwards a bit
         rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
   
       
