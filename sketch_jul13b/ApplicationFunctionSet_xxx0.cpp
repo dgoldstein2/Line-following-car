@@ -55,18 +55,18 @@ static void ApplicationFunctionSet_SmartRobotCarMotionControl(SmartRobotCarMotio
   case /* constant-expression */ LeftForward:
     /* code */
     AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ speed,
-                                           /*direction_B*/ direction_just, /*speed_B*/ speed / 2, /*controlED*/ control_enable); //Motor control
+                                           /*direction_B*/ direction_just, /*speed_B*/ speed/5, /*controlED*/ control_enable); //Motor control
     break;
   case /* constant-expression */ LeftBackward:
     AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_back, /*speed_A*/ speed,
-                                           /*direction_B*/ direction_back, /*speed_B*/ speed / 2, /*controlED*/ control_enable); //Motor control
+                                           /*direction_B*/ direction_back, /*speed_B*/ speed / 5, /*controlED*/ control_enable); //Motor control
     break;
   case /* constant-expression */ RightForward:
-    AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ speed / 2,
+    AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ speed / 5,
                                            /*direction_B*/ direction_just, /*speed_B*/ speed, /*controlED*/ control_enable); //Motor control
     break;
   case /* constant-expression */ RightBackward:
-    AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_back, /*speed_A*/ speed / 2,
+    AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_back, /*speed_A*/ speed / 5,
                                            /*direction_B*/ direction_back, /*speed_B*/ speed, /*controlED*/ control_enable); //Motor control
     break;
   case /* constant-expression */ stop_it:
