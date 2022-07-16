@@ -38,88 +38,93 @@ This section creates variables that can be stored as integers. Remember
 int rightValue; //initialize the integer variable rightValue
 int leftValue; //initialize a value for left sensor
 int middleValue; //initialize a value for middle sensor
-int b = 200;//creates a variable for the color black
-int c = 100;//creates a minimum for the center value
-int s = 40;//speed variable
+int b = 150;//creates a minimum for the right value(good)
+int c = 300;//creates a minimum for the center value
+int z = 400;//creates minimum for left value
+int s = 60;//speed variable
 
 void setup() {
     AppMotor.DeviceDriverSet_Motor_Init(); //internal code to initialize the motors. 
     delay(2000);
     
      
-  Serial.begin(9600); //standard rate of communication from Arduino Board to computer.
+    Serial.begin(9600); //standard rate of communication from Arduino Board to computer.
 }
 
 
 void loop() {
   
-  rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
+    rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
   
-  //black is greater than 250
-  leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
-  middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
-  delay(20); //Delay the read miniscule amounts for more accurate move movements
+    //black is greater than 250
+    leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
+    middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
+    delay(20); //Delay the read miniscule amounts for more accurate move movements
 
-  if(middleValue >= c){
+    if(middleValue >= c){
     
-    if(leftValue >= b &&rightValue > b){
-      ApplicationFunctionSet_SmartRobotCarMotionControl(0,s); //if all black move forward
-    }
-    else if(leftValue >= b && rightValue < b){
-      ApplicationFunctionSet_SmartRobotCarMotionControl(2,s); // if mid and left are black go left forward
-    }
-    else if(rightValue >= b && leftValue < b){
-      ApplicationFunctionSet_SmartRobotCarMotionControl(3,s); //if mid and right are black then go right forward
+      if(leftValue >= z &&rightValue > b){
+        ApplicationFunctionSet_SmartRobotCarMotionControl(0,s/2); //if all black move forward
+      }
+      else if(leftValue >= z && rightValue < b){
+        ApplicationFunctionSet_SmartRobotCarMotionControl(2,s); // if mid and left are black go left forward
+      }
+      else if(rightValue >= z && leftValue < b){
+        ApplicationFunctionSet_SmartRobotCarMotionControl(3,s); //if mid and right are black then go right forward
+      }
+      else{
+        ApplicationFunctionSet_SmartRobotCarMotionControl(0,s/2);//if only middle is on black go forward
+      }
     }
     else{
-      ApplicationFunctionSet_SmartRobotCarMotionControl(0,s);//if only middle is on black go forward
-    }
-  }
-  else{
-    if(leftValue >= b && rightValue < b){
-      while(leftValue >= b && rightValue < b){
-        ApplicationFunctionSet_SmartRobotCarMotionControl(7,s);// if mid and left are black go left backwards
+      if(leftValue >= z && rightValue < b){
+      
+        ApplicationFunctionSet_SmartRobotCarMotionControl(2,s);// if only left is black go left
+        rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
+        leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
+        middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
+  
+      
+      
+      } 
+      else if(rightValue >= b && leftValue < z){
+        
+        ApplicationFunctionSet_SmartRobotCarMotionControl(3,s); //if only right is black then go right
         rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
   
-  //black is greater than 250
-  leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
-  middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
-      }
       
-    } 
-    else if(rightValue >= b && leftValue < b){
-      while(rightValue >= b && leftValue < b){
-      ApplicationFunctionSet_SmartRobotCarMotionControl(5,s); //if mid and right are black then go right backwards
-      rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
+        leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
+        middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
   
-  //black is greater than 250
-  leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
-  middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
+      
+      }
+      else{
+      
+     
+        ApplicationFunctionSet_SmartRobotCarMotionControl(1,s/2);
+        delay(50);    //if all are white then go backwards with a bit of delay to allow to go backwards a bit
+        rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
+  
+      
+        leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
+        middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
+  
+  
+     
       }
     }
-    else{
-      while(rightValue<b&&leftValue<b){
-      ApplicationFunctionSet_SmartRobotCarMotionControl(1,s); //if mid and right are black then go backwards
-      rightValue = analogRead(rightSensor); //stores the right sensor reading in the integer variable rightValue
-  
-  //black is greater than 250
-  leftValue = analogRead(leftSensor); //stores the left sensor reading in the integer variable rightValue
-  middleValue = analogRead(middleSensor); //stores the center sensor reading in the integer variable rightValue
-      }
-    }
-  }
   
 
-  Serial.print("R:"); //Will print out the numeric value of the color sensed by the right sensor 
-  Serial.println(rightValue);
+    Serial.print("R:"); //Will print out the numeric value of the color sensed by the right sensor 
+    Serial.println(rightValue);
   
  
 
-  //How does serial print work? 
-  Serial.print("C:");
-  Serial.print(middleValue); //this line of code will display the middle sensor's data value. 
-  Serial.print('\t');
-   Serial.print("L:"); //this line of code will add a space between printed data.
-  Serial.println(leftValue); //notice the ln? This will display the right sensor's data value and then start the next printed info on the line below. 
-  delay(200); // adds a delay between each line of data printed
+    //How does serial print work? 
+    Serial.print("C:");
+    Serial.print(middleValue); //this line of code will display the middle sensor's data value. 
+    Serial.print('\t');
+    Serial.print("L:"); //this line of code will add a space between printed data.
+    Serial.println(leftValue); //notice the ln? This will display the right sensor's data value and then start the next printed info on the line below. 
+    delay(100); // adds a delay between each line of data printed
 }
